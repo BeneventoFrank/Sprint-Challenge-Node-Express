@@ -20,6 +20,15 @@ router.get('/:id',async(req,res)=>{
         res.status(500).json({message:error.toString()})
     }
 })
+router.get('/actions/:id',async(req,res)=>{
+    try {
+        const response = await projectsHelper.getProjectActions(req.params.id);
+        res.status(200).json(response);
+    } catch (error) {
+        res.status(500).json({message:error.toString()})
+    }
+})
+
 router.post('/',async(req,res)=>{
     try {
         let msg = validateProjectBody(req.body)
