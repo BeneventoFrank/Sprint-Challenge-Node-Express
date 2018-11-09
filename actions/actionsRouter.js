@@ -25,10 +25,15 @@ router.get('/:id',async(req,res)=>{
 router.post('/',async(req,res)=>{
     try {
         let msg = validateActionBody(req.body)
-        console.log('message',msg)
         if(msg.length>0){
             res.status(400).json({message:msg})
         } else {
+            try {
+                const project = await projectsHelper.get(req.body.project_id)              
+            } catch (error) {
+                res.status(400).json({message:"The Project Id Provided Is Invalid."})
+            }
+         
           const resp =  await actionsHelper.insert(req.body);
           const action = await actionsHelper.get(resp.id);
           res.status(201).json(action)
